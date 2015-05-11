@@ -10,7 +10,9 @@ cd sendgridjp-smtp-java-example
 cp .env.example .env
 # .envファイルを編集してください
 gradle build
-./run.sh
+./run-text.sh
+./run-multipart.sh
+./run-deco.sh
 ```
 
 ## .envファイルの編集
@@ -19,10 +21,12 @@ gradle build
 ```bash
 SENDGRID_USERNAME=your_username
 SENDGRID_PASSWORD=your_password
-TOS=you@youremail.com,friend1@friendemail.com,friend2@friendemail.com
+TOS=hoge@hogehoge.com,fuga@fugafuga.com,piyo@piyopiyo.com,hogera@hogera.com
+NAMES=名前1,名前2,名前3,名前4
 FROM=you@youremail.com
 ```
 SENDGRID_USERNAME:SendGridのユーザ名を指定してください。  
 SENDGRID_PASSWORD:SendGridのパスワードを指定してください。  
 TOS:宛先をカンマ区切りで指定してください。  
+NAMES:宛先毎の宛名をカンマ区切りで指定してください。
 FROM:送信元アドレスを指定してください。  
