@@ -50,13 +50,14 @@ public class JavaMailTextExample {
     message.setSubject("こんにちはSendGrid", CHARSET);
 
     // Body
-    String body = "こんにちは、nameさん\r\nようこそ〜テキストメールの世界へ！\r\n" +
-      "http://sendgrid.kke.co.jp";
+    String body = "こんにちは、nameさん\r\nようこそ〜テキストメールの世界へ！";
     message.setText(body, CHARSET, "plain");
     message.setHeader("Content-Transfer-Encoding", ENCODE);
 
     // X-SMTPAPIヘッダ
-    message.setHeader("X-SMTPAPI", createSmtpapi(TOS, NAMES));
+    String smtpapi = createSmtpapi(TOS, NAMES);
+    smtpapi = MimeUtility.encodeText(smtpapi);
+    message.setHeader("X-SMTPAPI", MimeUtility.fold(76, smtpapi));
 
     // 送信
     mailSession.getTransport().send(message);
@@ -68,7 +69,7 @@ public class JavaMailTextExample {
     smtpapi.setTos(tos);
     smtpapi.addSubstitutions("name", names);
     smtpapi.addCategory("category1");
-    return smtpapi.jsonString();
+    return smtpapi.rawJsonString();
   }
 
   private static class SMTPAuthenticator extends javax.mail.Authenticator {
