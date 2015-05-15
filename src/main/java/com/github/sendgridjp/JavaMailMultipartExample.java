@@ -100,7 +100,9 @@ public class JavaMailMultipartExample {
     message.setContent(altPart);
 
     // X-SMTPAPIヘッダ
-    message.setHeader("X-SMTPAPI", createSmtpapi(TOS, NAMES));
+    String smtpapi = createSmtpapi(TOS, NAMES);
+    smtpapi = MimeUtility.encodeText(smtpapi);
+    message.setHeader("X-SMTPAPI", MimeUtility.fold(76, smtpapi));
 
     // 送信
     mailSession.getTransport().send(message);
@@ -145,7 +147,7 @@ public class JavaMailMultipartExample {
     smtpapi.setTos(tos);
     smtpapi.addSubstitutions("name", names);
     smtpapi.addCategory("category1");
-    return smtpapi.jsonString();
+    return smtpapi.rawJsonString();
   }
 
   // SMTP

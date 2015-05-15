@@ -24,7 +24,7 @@ buildscript {
 dependencies {
   compile 'javax.mail:javax.mail-api:1.5.3'
   compile 'com.sun.mail:javax.mail:1.5.3'
-  compile 'com.sendgrid:smtpapi-java:1.1.1'
+  compile 'com.sendgrid:smtpapi-java:1.2.0'
 }
 
 // adds 'with-dependencies' to the fatJar name
