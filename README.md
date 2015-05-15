@@ -10,9 +10,15 @@ cd sendgridjp-smtp-java-example
 cp .env.example .env
 # .envファイルを編集してください
 gradle build
+
+# テキストメールを送る
 ./run-text.sh
-./run-multipart.sh
+
+# 携帯キャリア向けにデコメを送る
 ./run-deco.sh
+
+# 一般的なマルチパートメールを送る
+./run-multipart.sh
 ```
 
 ## .envファイルの編集
