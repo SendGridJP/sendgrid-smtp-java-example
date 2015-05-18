@@ -10,6 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -85,7 +88,7 @@ public class JavaMailDecoExample {
     String htmlBody =
       "<html>" +
       "<body bgcolor=\"#d9edf7\" style=\"background-color: #d9edf7;\">" +
-      "こんにちは、nameさん<br>ようこそ〜HTMLメールの世界へ！<br>" +
+      "こんにちは、nameさん<br>ようこそ〜デコメールの世界へ！<br>" +
       "<img src=\"cid:123@456\">" +
       "</body></html>";
     MimeBodyPart htmlBodyPart = new MimeBodyPart();
@@ -97,10 +100,8 @@ public class JavaMailDecoExample {
     altBodyPart.setContent(altPart);
     rootPart.addBodyPart(altBodyPart, 0);
     // Attachment part
-    File image = new File("./logo.gif");
-    InputStream input = new FileInputStream(image);
     MimeBodyPart attachmentPart = getMimeBodyPart(
-      input, "logo.gif", "image/gif", "123@456"
+      "./logo.gif", "logo.gif", "image/gif", "123@456"
     );
     rootPart.addBodyPart(attachmentPart);
 
@@ -115,31 +116,14 @@ public class JavaMailDecoExample {
     mailSession.getTransport().send(message);
   }
 
-  // InputStreamからbyte配列を生成
-  private static byte[] getBytes(InputStream is) throws IOException {
-    ByteArrayOutputStream b = new ByteArrayOutputStream();
-    OutputStream os = new BufferedOutputStream(b);
-    int c;
-    try {
-      while ((c = is.read()) != -1) {
-        os.write(c);
-      }
-    } finally {
-      if (os != null) {
-        os.flush();
-        os.close();
-      }
-    }
-    return b.toByteArray();
-  }
-
   // InputStreamからMimeBodyPartを生成
   private static MimeBodyPart getMimeBodyPart(
-    InputStream is, String name, String type, String cid
+    String path, String name, String type, String cid
   )
   throws IOException, MessagingException, UnsupportedEncodingException {
     MimeBodyPart attachment = new MimeBodyPart();
-    DataSource dataSource = new ByteArrayDataSource(getBytes(is), type);
+    byte[] bytes = Files.readAllBytes(FileSystems.getDefault().getPath(path));
+    DataSource dataSource = new ByteArrayDataSource(bytes, type);
     DataHandler dataHandler = new DataHandler(dataSource);
     attachment.setDataHandler(dataHandler);
     attachment.setFileName(MimeUtility.encodeWord(name));
