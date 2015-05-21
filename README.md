@@ -6,7 +6,7 @@
 
 ```bash
 git clone http://github.com/sendgridjp/sendgrid-smtp-java-example.git
-cd sendgridjp-smtp-java-example
+cd sendgrid-smtp-java-example
 cp .env.example .env
 # .envファイルを編集してください
 gradle build
