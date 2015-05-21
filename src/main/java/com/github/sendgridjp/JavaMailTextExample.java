@@ -29,9 +29,11 @@ public class JavaMailTextExample {
   throws MessagingException, UnsupportedEncodingException {
     // SMTP接続情報
     Properties props = new Properties();
-    props.put("mail.transport.protocol", "smtp");
+    props.put("mail.transport.protocol", "smtps");
     props.put("mail.smtp.host", "smtp.sendgrid.net");
-    props.put("mail.smtp.port", 587);
+    props.put("mail.smtp.port", "587");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.starttls.required", "true");
     props.put("mail.smtp.auth", "true");
     Authenticator auth = new SMTPAuthenticator();
     Session mailSession = Session.getDefaultInstance(props, auth);
