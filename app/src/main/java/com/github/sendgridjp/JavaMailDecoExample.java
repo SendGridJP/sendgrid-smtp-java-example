@@ -22,20 +22,22 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.internet.InternetAddress;
 import javax.mail.util.ByteArrayDataSource;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import com.sendgrid.smtpapi.SMTPAPI;
 
 public class JavaMailDecoExample {
   // 設定情報
-  static final String USERNAME = System.getenv("SENDGRID_USERNAME");
-  static final String PASSWORD = System.getenv("SENDGRID_PASSWORD");
-  static final String[] TOS    = System.getenv("TOS").split(",");
-  static final String[] NAMES  = System.getenv("NAMES").split(",");
-  static final String FROM     = System.getenv("FROM");
+  static Dotenv dotenv = Dotenv.load();
+  static final String USERNAME = dotenv.get("SENDGRID_USERNAME");
+  static final String PASSWORD = dotenv.get("SENDGRID_PASSWORD");
+  static final String[] TOS    = dotenv.get("TOS").split(",");
+  static final String[] NAMES  = dotenv.get("NAMES").split(",");
+  static final String FROM     = dotenv.get("FROM");
   static final String CHARSET  = "ISO-2022-JP"; // "UTF-8";
   static final String ENCODE   = "7bit"; // "base64"; // "quoted-printable";
 
-  public static void main(String[] args)
+  public static void send()
   throws IOException, MessagingException, UnsupportedEncodingException {
     // SMTP接続情報
     Properties props = new Properties();
@@ -95,7 +97,7 @@ public class JavaMailDecoExample {
     rootPart.addBodyPart(altBodyPart, 0);
     // Attachment part
     MimeBodyPart attachmentPart = getMimeBodyPart(
-      "./logo.gif", "logo.gif", "image/gif", "123@456"
+      "./src/main/resources/SG_Twilio_Lockup_RGBx2.png", "SG_Twilio_Lockup_RGBx2.png", "image/png", "123@456"
     );
     rootPart.addBodyPart(attachmentPart);
 
