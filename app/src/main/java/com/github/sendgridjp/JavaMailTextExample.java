@@ -24,8 +24,8 @@ public class JavaMailTextExample {
   static final String[] TOS    = dotenv.get("TOS").split(",");
   static final String[] NAMES  = dotenv.get("NAMES").split(",");
   static final String FROM     = dotenv.get("FROM");
-  static final String CHARSET  = "ISO-2022-JP"; // "UTF-8";
-  static final String ENCODE   = "7bit"; // "base64"; // "quoted-printable";
+  static final String CHARSET  = "UTF-8"; // "ISO-2022-JP"; // "UTF-8";
+  static final String ENCODE   = "base64"; // "7bit"; // "quoted-printable";
 
   public static void send()
   throws MessagingException, UnsupportedEncodingException {
