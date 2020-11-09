@@ -34,8 +34,9 @@ public class JavaMailDecoExample {
   static final String[] TOS    = dotenv.get("TOS").split(",");
   static final String[] NAMES  = dotenv.get("NAMES").split(",");
   static final String FROM     = dotenv.get("FROM");
-  static final String CHARSET  = "UTF-8"; // "ISO-2022-JP"; // "UTF-8";
-  static final String ENCODE   = "base64"; // "7bit"; // "quoted-printable";
+  static final String SUBJECT  = dotenv.get("SUBJECT");
+  static final String CHARSET  = dotenv.get("CHARSET");
+  static final String ENCODE   = dotenv.get("ENCODE");
 
   public static void send()
   throws IOException, MessagingException, UnsupportedEncodingException {
@@ -61,7 +62,7 @@ public class JavaMailDecoExample {
     message.setFrom(FROM);
 
     // Subject
-    message.setSubject("こんにちはSendGrid", CHARSET);
+    message.setSubject(SUBJECT, CHARSET);
 
     // Body
     // Root part
