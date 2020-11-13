@@ -12,20 +12,23 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import javax.mail.internet.InternetAddress;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import com.sendgrid.smtpapi.SMTPAPI;
 
 public class JavaMailTextExample {
   // 設定情報
-  static final String USERNAME = System.getenv("SENDGRID_USERNAME");
-  static final String PASSWORD = System.getenv("SENDGRID_PASSWORD");
-  static final String[] TOS    = System.getenv("TOS").split(",");
-  static final String[] NAMES  = System.getenv("NAMES").split(",");
-  static final String FROM     = System.getenv("FROM");
-  static final String CHARSET  = "ISO-2022-JP"; // "UTF-8";
-  static final String ENCODE   = "7bit"; // "base64"; // "quoted-printable";
+  static Dotenv dotenv = Dotenv.load();
+  static final String USERNAME = dotenv.get("SENDGRID_USERNAME");
+  static final String PASSWORD = dotenv.get("SENDGRID_PASSWORD");
+  static final String[] TOS    = dotenv.get("TOS").split(",");
+  static final String[] NAMES  = dotenv.get("NAMES").split(",");
+  static final String FROM     = dotenv.get("FROM");
+  static final String SUBJECT  = dotenv.get("SUBJECT");
+  static final String CHARSET  = dotenv.get("CHARSET");
+  static final String ENCODE   = dotenv.get("ENCODE");
 
-  public static void main(String[] args)
+  public static void send()
   throws MessagingException, UnsupportedEncodingException {
     // SMTP接続情報
     Properties props = new Properties();
@@ -49,7 +52,7 @@ public class JavaMailTextExample {
     message.setFrom(FROM);
 
     // Subject
-    message.setSubject("こんにちはSendGrid", CHARSET);
+    message.setSubject(SUBJECT, CHARSET);
 
     // Body
     String body = "こんにちは、nameさん\r\nようこそ〜テキストメールの世界へ！";
